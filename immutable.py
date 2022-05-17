@@ -5,6 +5,7 @@ from typing import Union
 from typing import Generator
 from typing import Callable
 
+
 class TreeNode:
     def __init__(self, key, val, left=None, right=None):
         self.key = key
