@@ -1,6 +1,9 @@
 # editor: Zhuo lin
-from typing import TypeVar, Generic, List, Iterator, Callable, Generator, Union, Any
-
+from typing import TypeVar, Generic, List, Iterator
+from typing import Any
+from typing import Union
+from typing import Generator
+from typing import Callable
 
 class TreeNode:
     def __init__(self, key, val, left=None, right=None):
