@@ -8,7 +8,7 @@ We need to realize the dictionary based on binary-tree.
 - `immutable.py` -- implementation of `TreeNode` class
 - class with some necessary features.
 
-- `test_immutable.py` -- unit and tests for `Dict`.
+- `test_immutable.py` -- unit tests.
 
 ## Features
 
