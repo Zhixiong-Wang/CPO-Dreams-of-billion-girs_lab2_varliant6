@@ -1,4 +1,4 @@
-# editor: Wang Zhixiong
+# editor: Zhuo lin
 
 import unittest
 from hypothesis import given
@@ -120,7 +120,6 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(tolist(T), [3, 4, 2, 6, 1, 8, 5, 7])
 
     element = st.one_of(st.integers(), st.text(min_size=1))
-
 
     def test_iter(self):
         lst = [3, 'a', 2, 'b', 5, 'c']
