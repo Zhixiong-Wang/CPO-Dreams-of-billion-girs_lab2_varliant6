@@ -23,7 +23,7 @@ We need to realize the dictionary based on binary-tree.
 
 ## Changelog
 
-- 15.04.2022 - 0
+- 25.05.2022 - 0
   - Select a binary balanced tree as the data structure to
   - implement the program named TreeNode,
   - complete part of the unit test
