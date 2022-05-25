@@ -1,4 +1,4 @@
-# editor: Zhuo lin
+# editor: Wang Zhixiong
 from typing import TypeVar, Generic, List, Iterator
 from typing import Any
 from typing import Union
