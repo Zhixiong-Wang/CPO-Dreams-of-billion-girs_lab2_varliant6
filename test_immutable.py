@@ -1,4 +1,4 @@
-# editor: Zhuo lin
+# editor: Wang Zhixiong
 
 import unittest
 from hypothesis import given
