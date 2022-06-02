@@ -7,6 +7,52 @@ from immutable import *
 
 
 class TestImmutableList(unittest.TestCase):
+    def test_api(self):
+        empty = None
+        l1 = TreeNode(None, "c", TreeNode(2, "b", TreeNode("a", 1)))
+        l2 = TreeNode("a", 1, TreeNode(None, "c", TreeNode(2, "b")))
+        self.assertEqual(size(empty), 0)
+        self.assertTrue(
+            display(l1) in [
+                {'a': 1, 2: 'b', None: 'c'}, {'a': 1, None: 'c', 2: 'b'},
+                {2: 'b', 'a': 1, None: 'c'}, {2: 'b', None: 'c', 'a': 1},
+                {None: 'c', 2: 'b', 'a': 1}, {None: 'c', 'a': 1, 2: 'b'}
+            ])
+        self.assertNotEqual(empty, l1)
+        self.assertNotEqual(empty, l2)
+        self.assertEqual(display(l1), display(l2))
+        self.assertEqual(size(empty), 0)
+        self.assertEqual(size(l1), 3)
+        self.assertEqual(size(l2), 3)
+
+        self.assertTrue(display(delete(l1, None)) in [
+            {2: 'b', 'a': 1}, {'a': 1, 2: 'b'}])
+        self.assertTrue(display(delete(l1, 'a')) in [
+            {2: 'b', None: 'c'}, {None: 'c', 2: 'b'}])
+        self.assertFalse(is_member(empty, None,None))
+        self.assertTrue(is_member(l1, None, "c"))
+        self.assertTrue(is_member(l1, 'a', 1))
+        self.assertTrue(is_member(l1, 2, "b"))
+        self.assertFalse(is_member(l1, 3, None))
+        self.assertTrue(tolist(l1), iterator(l1)[0])
+        self.assertEqual(display(l1),
+                         display(fromlist([None, 'c', 'a', 1, 2, 'b'])))
+        self.assertEqual(display(mconcat(l1, l2)),
+                         display(fromlist([None, 'c', 2, 'B', 'a', 1, 2, 'b'])))
+        buf = []
+        for e in l1:
+            buf.append(e)
+        self.assertIn(str(buf), str(iterator(l1)[0]))
+        def f(x):
+            return x
+        lst = tolist(map(l1, f)) + \
+              tolist(map(l2, f))
+        for e in l1:
+            lst.remove(e)
+        for e in l2:
+            lst.remove(e)
+        self.assertEqual(lst, [])
+
     def test_size(self):
         self.assertEqual(size(None), 0)
         self.assertEqual(size(TreeNode(3, 'a')), 1)
@@ -55,8 +101,7 @@ class TestImmutableList(unittest.TestCase):
     def test_delete(self):
         T = TreeNode(3, 'a', TreeNode(2, 'b'), TreeNode(5, 'c'))
         self.assertEqual(is_member(T, 2, 'b'), True)
-        delete(T, 2)
-        self.assertEqual(is_member(T, 2, 'b'), False)
+        self.assertEqual(is_member(delete(T, 2), 2, 'b'), False)
         try:
             delete(T, 4)
         except AttributeError as e:
@@ -121,6 +166,8 @@ class TestImmutableList(unittest.TestCase):
 
     element = st.one_of(st.integers(), st.text(min_size=1))
 
+    element = st.one_of(st.integers(), st.text(min_size=1))
+
     @given(st.lists(element))
     def test_from_list_to_list_equality(self, a):
         if len(a) % 2 == 1:
@@ -128,13 +175,13 @@ class TestImmutableList(unittest.TestCase):
         else:
             for i in range(0, len(a), 2):
                 for j in range(i + 2, len(a), 2):
-                    if isinstance(a[i], str):
+                    if type(a[i]) is str:
                         ai_num = 0
                         for k in range(len(a[i])):
                             ai_num = ai_num + ord(a[i][k])
                     else:
                         ai_num = a[i]
-                    if isinstance(a[j], str):
+                    if type(a[j]) is str:
                         aj_num = 0
                         for k in range(len(a[j])):
                             aj_num = aj_num + ord(a[j][k])
@@ -154,13 +201,13 @@ class TestImmutableList(unittest.TestCase):
         else:
             for i in range(0, len(lst), 2):
                 for j in range(i + 2, len(lst), 2):
-                    if isinstance(lst[i], str):
+                    if type(lst[i]) is str:
                         lsti_num = 0
                         for k in range(len(lst[i])):
                             lsti_num = lsti_num + ord(lst[i][k])
                     else:
                         lsti_num = lst[i]
-                    if isinstance(lst[j], str):
+                    if type(lst[j]) is str:
                         lstj_num = 0
                         for k in range(len(lst[j])):
                             lstj_num = lstj_num + ord(lst[j][k])
@@ -187,14 +234,7 @@ class TestImmutableList(unittest.TestCase):
             t1 = fromlist(lst1)
             t2 = fromlist(lst2)
             t3 = fromlist(lst3)
-            self.assertEqual(
-                tolist(
-                    mconcat(
-                        mconcat(
-                            t1, t2), t3)), tolist(
-                    mconcat(
-                        t1, mconcat(
-                            t2, t3))))
+            self.assertEqual(tolist(mconcat(mconcat(t1, t2), t3)), tolist(mconcat(t1, mconcat(t2, t3))))
 
     def test_iter(self):
         lst = [3, 'a', 2, 'b', 5, 'c']

@@ -13,13 +13,16 @@ class TreeNode:
         self.leftChild = left
         self.rightChild = right
 
+    def __iter__(self):
+        return iter(tolist(self))
+
 
 key_type = TypeVar('key_type', str, int, float)
 val_type = TypeVar('val_type', None, str, int, float)
 node_type = TypeVar('node_type', None, TreeNode)
 
 
-def size(bst: Union[TreeNode, None]):
+def size(bst: Union[TreeNode, None]) -> int:
     if bst is None:
         return 0
     else:
@@ -27,11 +30,22 @@ def size(bst: Union[TreeNode, None]):
 
 
 def insert(bst: Union[TreeNode, None], key: key_type,
-           val: val_type):
-    if key is None or val is None:
-        raise AttributeError("The element is wrong.")
+           val: val_type) -> TreeNode:
     if bst is None:
         bst = TreeNode(key, val)
+    elif key is None or val is None:
+        if bst.leftChild is None:
+            bst.leftChild = TreeNode(key, val)
+        else:
+            if bst.rightChild is None:
+                bst.rightChild = TreeNode(key, val)
+        # raise AttributeError("The element is wrong.")
+    elif bst.key is None:
+        if bst.leftChild is None:
+            bst.leftChild = TreeNode(key, val)
+        else:
+            if bst.rightChild is None:
+                bst.rightChild = TreeNode(key, val)
     else:
         if isinstance(key, str):
             key_num = 0
@@ -58,25 +72,34 @@ def insert(bst: Union[TreeNode, None], key: key_type,
     return bst
 
 
-def get(bst: Union[TreeNode, None], key: key_type):
+def get(bst: Union[TreeNode, None], key: key_type) -> Union[TreeNode, None]:
     if bst is None:
         return None
-    elif key == bst.key:
+    if type(bst.key) != key:
+        if get(bst.leftChild, key) is not None:
+            return get(bst.leftChild, key)
+        if get(bst.rightChild, key) is not None:
+            return get(bst.rightChild, key)
+    if key == bst.key:
         return bst
-    elif key < bst.key:
-        return get(bst.leftChild, key)
-    else:
-        return get(bst.rightChild, key)
+    # if bst is None:
+    #     return None
+    # elif key == bst.key:
+    #     return bst
+    # elif key < bst.key:
+    #     return get(bst.leftChild, key)
+    # else:
+    #     return get(bst.rightChild, key)
 
 
-def find(bst: Union[TreeNode, None], key: key_type):
+def find(bst: Union[TreeNode, None], key: key_type) -> Union[val_type, bool]:
     if get(bst, key) is None:
         return False
     else:
         return get(bst, key).val  # type: ignore
 
 
-def parent(bst: Union[TreeNode, None], key: key_type):
+def parent(bst: Union[TreeNode, None], key: key_type) -> Union[TreeNode, None]:
     if bst is None or bst.key == key:
         return None
     elif key == bst.leftChild.key or key == bst.rightChild.key:
@@ -87,48 +110,60 @@ def parent(bst: Union[TreeNode, None], key: key_type):
         return parent(bst.rightChild, key)
 
 
-def is_member(bst: Union[TreeNode, None], k: key_type, v: val_type):
+def is_member(bst: Union[TreeNode, None], k: key_type, v: val_type) -> bool:
     if find(bst, k) == v:
         return True
     else:
         return False
 
 
-def delete(bst: Union[TreeNode, None], key: key_type):
-    n = get(bst, key)
-    if n is None:
+def delete(bst: Union[TreeNode, None], key: key_type) -> None:
+    # n = get(bst, key)
+    # if n is None:
+    #     raise AttributeError("The element does not exist.")
+    res = tolist(bst)
+    res1 = res[0::2]
+    index = None
+    for i in range(0, len(res1)):
+        if key == res1[i]:
+            index = i
+    res2 = res[1::2]
+    if index is None:
         raise AttributeError("The element does not exist.")
-    p = parent(bst, key)
-    if n.leftChild is None:  # type: ignore
-        if n == p.leftChild:  # type: ignore
-            p.leftChild = n.rightChild  # type: ignore
-        else:
-            p.rightChild = n.rightChild  # type: ignore
-        del n
-    elif n.rightChild is None:  # type: ignore
-        if n == p.leftChild:  # type: ignore
-            p.leftChild = n.leftChild  # type: ignore
-        else:
-            p.rightChild = n.leftChild  # type: ignore
-    else:
-        pre = n.rightChild  # type: ignore
-        if pre.leftChild is None:
-            n.key = pre.key  # type: ignore
-            n.val = pre.val  # type: ignore
-            n.rightChild = pre.rightChild  # type: ignore
-            del pre
-        else:
-            temp = pre.leftChild
-            while temp.leftChild is not None:
-                pre = temp
-                temp = temp.leftChild
-            n.key = temp.key  # type: ignore
-            n.val = temp.val  # type: ignore
-            pre.leftChild = temp.rightChild
-            del temp
+    del res[index * 2 + 1]
+    del res[index * 2]
+    return fromlist(res)
+    # p = parent(bst, key)
+    # if n.leftChild is None:  # type: ignore
+    #     if n == p.leftChild:  # type: ignore
+    #         p.leftChild = n.rightChild  # type: ignore
+    #     else:
+    #         p.rightChild = n.rightChild  # type: ignore
+    #     del n
+    # elif n.rightChild is None:  # type: ignore
+    #     if n == p.leftChild:  # type: ignore
+    #         p.leftChild = n.leftChild  # type: ignore
+    #     else:
+    #         p.rightChild = n.leftChild  # type: ignore
+    # else:
+    #     pre = n.rightChild  # type: ignore
+    #     if pre.leftChild is None:
+    #         n.key = pre.key  # type: ignore
+    #         n.val = pre.val  # type: ignore
+    #         n.rightChild = pre.rightChild  # type: ignore
+    #         del pre
+    #     else:
+    #         temp = pre.leftChild
+    #         while temp.leftChild is not None:
+    #             pre = temp
+    #             temp = temp.leftChild
+    #         n.key = temp.key  # type: ignore
+    #         n.val = temp.val  # type: ignore
+    #         pre.leftChild = temp.rightChild
+    #         del temp
 
 
-def tolist(bst: Union[TreeNode, None]):
+def tolist(bst: Union[TreeNode, None]) -> List:
     res = []  # type: ignore
 
     def tolist_loop(bst, ans):
@@ -138,29 +173,38 @@ def tolist(bst: Union[TreeNode, None]):
             ans = tolist_loop(bst.leftChild, ans)
             ans = tolist_loop(bst.rightChild, ans)
         return ans
+
     return tolist_loop(bst, res)
 
 
-def fromlist(lst: List):
+def fromlist(lst: List) -> Union[TreeNode, None, bool]:
     bst = None
     if len(lst) == 0:
         return None
     elif len(lst) % 2 == 1:
         return False
+    for i in range(0, len(lst)):
+        for j in range(0, len(lst)):
+            if lst[i] == lst[j] and i % 2 == 0 and j % 2 == 0:
+                lst[i + 1] = lst[j + 1]
     else:
         for i in range(0, len(lst), 2):
             bst = insert(bst, lst[i], lst[i + 1])
         return bst
 
 
-def map(bst: Union[TreeNode, None], f: Callable[[float], float]):
-    if bst is not None:
+def map(bst: Union[TreeNode, None], f: Callable[[float], float]) -> None:
+    if bst is not None and bst.key is not None:
         bst.val = f(bst.val)
         map(bst.leftChild, f)
         map(bst.rightChild, f)
+    return bst
 
 
-def func(bst: Union[TreeNode, None], f: Callable[[float], float]):
+
+
+
+def func(bst: Union[TreeNode, None], f: Callable[[float], float]) -> int:
     ans = [0]
 
     def func_loop(bst, f, ans):
@@ -169,11 +213,12 @@ def func(bst: Union[TreeNode, None], f: Callable[[float], float]):
             func_loop(bst.leftChild, f, ans)
             func_loop(bst.rightChild, f, ans)
         return ans
+
     return func_loop(bst, f, ans)[0]
 
 
 def filter(tree: Union[TreeNode, None],
-           rule: Generator[str, int, float]):
+           rule: Generator[str, int, float]) -> Union[TreeNode, None]:
     bst = None
 
     def filter_loop(bst, current, rule):
@@ -183,26 +228,27 @@ def filter(tree: Union[TreeNode, None],
             bst = filter_loop(bst, current.leftChild, rule)
             bst = filter_loop(bst, current.rightChild, rule)
         return bst
+
     return filter_loop(bst, tree, rule)
 
 
 def mconcat(bst1: Union[TreeNode, None],
-            bst2: Union[TreeNode, None]):
+            bst2: Union[TreeNode, None]) -> Union[TreeNode, None, bool]:
     lst1 = tolist(bst1)
     lst2 = tolist(bst2)
     lst = lst1 + lst2
     return fromlist(lst)
 
 
-def mempty():
+def mempty() -> None:
     return None
 
 
-def iterator(bst: Union[TreeNode, None]):
+def iterator(bst: Union[TreeNode, None]) -> List:
     return [tolist(bst), 0]
 
 
-def next_item(it_lst: List):
+def next_item(it_lst: List) -> Callable[[], Any]:
     lst = it_lst[0]
     cur = it_lst[1]
 
@@ -214,4 +260,14 @@ def next_item(it_lst: List):
         cur = cur + 1
         it_lst[1] = it_lst[1] + 1
         return tmp
+
     return foo
+
+
+def display(bst: Union[TreeNode, None]):
+    if bst is None:
+        return {}
+    else:
+        a = tolist(bst)
+        b = dict(zip(a[0::2], a[1::2]))
+        return b
