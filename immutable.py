@@ -82,14 +82,6 @@ def get(bst: Union[TreeNode, None], key: key_type):
             return get(bst.rightChild, key)
     if key == bst.key:
         return bst
-    # if bst is None:
-    #     return None
-    # elif key == bst.key:
-    #     return bst
-    # elif key < bst.key:
-    #     return get(bst.leftChild, key)
-    # else:
-    #     return get(bst.rightChild, key)
 
 
 def find(bst: Union[TreeNode, None], key: key_type):
@@ -133,34 +125,6 @@ def delete(bst: Union[TreeNode, None], key: key_type):
     del res[index * 2 + 1]
     del res[index * 2]
     return fromlist(res)
-    # p = parent(bst, key)
-    # if n.leftChild is None:  # type: ignore
-    #     if n == p.leftChild:  # type: ignore
-    #         p.leftChild = n.rightChild  # type: ignore
-    #     else:
-    #         p.rightChild = n.rightChild  # type: ignore
-    #     del n
-    # elif n.rightChild is None:  # type: ignore
-    #     if n == p.leftChild:  # type: ignore
-    #         p.leftChild = n.leftChild  # type: ignore
-    #     else:
-    #         p.rightChild = n.leftChild  # type: ignore
-    # else:
-    #     pre = n.rightChild  # type: ignore
-    #     if pre.leftChild is None:
-    #         n.key = pre.key  # type: ignore
-    #         n.val = pre.val  # type: ignore
-    #         n.rightChild = pre.rightChild  # type: ignore
-    #         del pre
-    #     else:
-    #         temp = pre.leftChild
-    #         while temp.leftChild is not None:
-    #             pre = temp
-    #             temp = temp.leftChild
-    #         n.key = temp.key  # type: ignore
-    #         n.val = temp.val  # type: ignore
-    #         pre.leftChild = temp.rightChild
-    #         del temp
 
 
 def tolist(bst: Union[TreeNode, None]):
