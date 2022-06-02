@@ -204,7 +204,8 @@ def map(bst: Union[TreeNode, None], f: Callable[[float], float]) -> None:
 
 
 
-def func(bst: Union[TreeNode, None], f: Callable[[float], float]) -> int:
+def func(bst: Union[TreeNode, None],
+         f: Callable[[float], float]) -> int:
     ans = [0]
 
     def func_loop(bst, f, ans):

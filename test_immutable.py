@@ -29,7 +29,7 @@ class TestImmutableList(unittest.TestCase):
             {2: 'b', 'a': 1}, {'a': 1, 2: 'b'}])
         self.assertTrue(display(delete(l1, 'a')) in [
             {2: 'b', None: 'c'}, {None: 'c', 2: 'b'}])
-        self.assertFalse(is_member(empty, None,None))
+        self.assertFalse(is_member(empty, None, None))
         self.assertTrue(is_member(l1, None, "c"))
         self.assertTrue(is_member(l1, 'a', 1))
         self.assertTrue(is_member(l1, 2, "b"))
@@ -38,15 +38,17 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(display(l1),
                          display(fromlist([None, 'c', 'a', 1, 2, 'b'])))
         self.assertEqual(display(mconcat(l1, l2)),
-                         display(fromlist([None, 'c', 2, 'B', 'a', 1, 2, 'b'])))
+                         display(fromlist([None, 'c',
+                                           2, 'B', 'a', 1, 2, 'b'])))
         buf = []
         for e in l1:
             buf.append(e)
         self.assertIn(str(buf), str(iterator(l1)[0]))
+
         def f(x):
             return x
-        lst = tolist(map(l1, f)) + \
-              tolist(map(l2, f))
+
+        lst = tolist(map(l1, f)) + tolist(map(l2, f))
         for e in l1:
             lst.remove(e)
         for e in l2:
@@ -127,6 +129,7 @@ class TestImmutableList(unittest.TestCase):
 
         def f(x):
             return x * 2
+
         map(T, f)
         self.assertEqual(T.key, 3)
         self.assertEqual(T.val, 8)
@@ -142,6 +145,7 @@ class TestImmutableList(unittest.TestCase):
 
         def fsum(x, s):
             return s + x
+
         self.assertEqual(func(T, fsum), 17)
 
     def test_filter(self):
@@ -149,6 +153,7 @@ class TestImmutableList(unittest.TestCase):
 
         def r(key):
             return key % 2 == 0
+
         T_filter = filter(T, r)
         self.assertEqual(T_filter.key, 3)
         self.assertEqual(T_filter.val, 4)
@@ -234,7 +239,8 @@ class TestImmutableList(unittest.TestCase):
             t1 = fromlist(lst1)
             t2 = fromlist(lst2)
             t3 = fromlist(lst3)
-            self.assertEqual(tolist(mconcat(mconcat(t1, t2), t3)), tolist(mconcat(t1, mconcat(t2, t3))))
+            self.assertEqual(tolist(mconcat(mconcat(t1, t2), t3)),
+                             tolist(mconcat(t1, mconcat(t2, t3))))
 
     def test_iter(self):
         lst = [3, 'a', 2, 'b', 5, 'c']
