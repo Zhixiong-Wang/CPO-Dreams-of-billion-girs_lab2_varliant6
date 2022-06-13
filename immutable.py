@@ -23,7 +23,7 @@ class TreeNode:
         return iter(tolist(self))
 
 
-def size(bst: Union[TreeNode, None]) -> int:
+def size(bst: Union[TreeNode, None]) -> Union[int, TreeNode]:
     if bst is None:
         return 0
     else:
