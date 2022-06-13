@@ -11,7 +11,8 @@ D = Union[None, str, int, float]
 
 class TreeNode:
     def __init__(self, k: K, v: D,
-                 left=None, right=None) -> None:
+                 left: object = None,
+                 right: object = None) -> None:
         self.key = k  # key
         self.val = v  # value
         self.leftChild = left  # left pointer
