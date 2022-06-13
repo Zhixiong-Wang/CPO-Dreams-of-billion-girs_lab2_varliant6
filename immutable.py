@@ -10,7 +10,7 @@ val_type = TypeVar('val_type', None, str, int, float)
 
 
 class TreeNode:
-    def __init__(self, key, val,
+    def __init__(self, key: key_type, val: val_type,
                  left=None, right=None) -> None:
         self.key = key
         self.val = val
@@ -31,20 +31,20 @@ def size(bst: Union[TreeNode, None]) -> int:
 def insert(bst: Union[TreeNode, None], key: key_type,
            val: val_type) -> TreeNode:
     if bst is None:
-        bst = TreeNode(key, val)  # type: ignore
+        bst = TreeNode(key, val)
     elif key is None or val is None:
         if bst.leftChild is None:
-            bst.leftChild = TreeNode(key, val)  # type: ignore
+            bst.leftChild = TreeNode(key, val)
         else:
             if bst.rightChild is None:
-                bst.rightChild = TreeNode(key, val)  # type: ignore
+                bst.rightChild = TreeNode(key, val)
         # raise AttributeError("The element is wrong.")
     elif bst.key is None:
         if bst.leftChild is None:
-            bst.leftChild = TreeNode(key, val)  # type: ignore
+            bst.leftChild = TreeNode(key, val)
         else:
             if bst.rightChild is None:
-                bst.rightChild = TreeNode(key, val)  # type: ignore
+                bst.rightChild = TreeNode(key, val)
     else:
         if isinstance(key, str):
             key_num = 0
