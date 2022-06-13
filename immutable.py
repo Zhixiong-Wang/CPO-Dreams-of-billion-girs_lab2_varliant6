@@ -10,7 +10,7 @@ val_type = TypeVar('val_type', None, str, int, float)
 
 
 class TreeNode:
-    def __init__(self, key: key_type, val: val_type,
+    def __init__(self, key, val,
                  left=None, right=None):
         self.key = key
         self.val = val
