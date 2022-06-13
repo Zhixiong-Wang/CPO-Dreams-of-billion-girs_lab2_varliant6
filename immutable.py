@@ -22,7 +22,7 @@ val_type = TypeVar('val_type', None, str, int, float)
 node_type = TypeVar('node_type', None, TreeNode)
 
 
-def size(bst: Union[TreeNode, None]):
+def size(bst: Union[TreeNode, None]) -> int:
     if bst is None:
         return 0
     else:
@@ -30,7 +30,7 @@ def size(bst: Union[TreeNode, None]):
 
 
 def insert(bst: Union[TreeNode, None], key: key_type,
-           val: val_type):
+           val: val_type) -> TreeNode:
     if bst is None:
         bst = TreeNode(key, val)
     elif key is None or val is None:
@@ -72,7 +72,8 @@ def insert(bst: Union[TreeNode, None], key: key_type,
     return bst
 
 
-def get(bst: Union[TreeNode, None], key: key_type):
+def get(bst: Union[TreeNode, None],
+        key: key_type) -> Union[TreeNode, None]:
     if bst is None:
         return None
     if type(bst.key) != key:
@@ -84,14 +85,16 @@ def get(bst: Union[TreeNode, None], key: key_type):
         return bst
 
 
-def find(bst: Union[TreeNode, None], key: key_type):
+def find(bst: Union[TreeNode, None],
+         key: key_type) -> Union[val_type, bool]:
     if get(bst, key) is None:
         return False
     else:
         return get(bst, key).val  # type: ignore
 
 
-def parent(bst: Union[TreeNode, None], key: key_type):
+def parent(bst: Union[TreeNode, None],
+           key: key_type) -> Union[TreeNode, None]:
     if bst is None or bst.key == key:
         return None
     elif key == bst.leftChild.key or key == bst.rightChild.key:
@@ -102,17 +105,16 @@ def parent(bst: Union[TreeNode, None], key: key_type):
         return parent(bst.rightChild, key)
 
 
-def is_member(bst: Union[TreeNode, None], k: key_type, v: val_type):
+def is_member(bst: Union[TreeNode, None],
+              k: key_type, v: val_type) -> bool:
     if find(bst, k) == v:
         return True
     else:
         return False
 
 
-def delete(bst: Union[TreeNode, None], key: key_type):
-    # n = get(bst, key)
-    # if n is None:
-    #     raise AttributeError("The element does not exist.")
+def delete(bst: Union[TreeNode, None],
+           key: key_type) -> None:
     res = tolist(bst)
     res1 = res[0::2]
     index = None
@@ -127,7 +129,7 @@ def delete(bst: Union[TreeNode, None], key: key_type):
     return fromlist(res)
 
 
-def tolist(bst: Union[TreeNode, None]):
+def tolist(bst: Union[TreeNode, None]) -> List:
     res = []  # type: ignore
 
     def tolist_loop(bst, ans):
@@ -141,7 +143,7 @@ def tolist(bst: Union[TreeNode, None]):
     return tolist_loop(bst, res)
 
 
-def fromlist(lst: List):
+def fromlist(lst: List) -> Union[TreeNode, None, bool]:
     bst = None
     if len(lst) == 0:
         return None
@@ -157,7 +159,8 @@ def fromlist(lst: List):
         return bst
 
 
-def map(bst: Union[TreeNode, None], f: Callable[[float], float]):
+def map(bst: Union[TreeNode, None],
+        f: Callable[[float], float]) -> TreeNode:
     if bst is not None and bst.key is not None:
         bst.val = f(bst.val)
         map(bst.leftChild, f)
@@ -166,7 +169,7 @@ def map(bst: Union[TreeNode, None], f: Callable[[float], float]):
 
 
 def func(bst: Union[TreeNode, None],
-         f: Callable[[float], float]):
+         f: Callable[[float], float]) -> int:
     ans = [0]
 
     def func_loop(bst, f, ans):
@@ -180,7 +183,7 @@ def func(bst: Union[TreeNode, None],
 
 
 def filter(tree: Union[TreeNode, None],
-           rule: Generator[str, int, float]):
+           rule: Generator[str, int, float]) -> Union[TreeNode, None]:
     bst = None
 
     def filter_loop(bst, current, rule):
@@ -195,7 +198,7 @@ def filter(tree: Union[TreeNode, None],
 
 
 def mconcat(bst1: Union[TreeNode, None],
-            bst2: Union[TreeNode, None]):
+            bst2: Union[TreeNode, None]) -> Union[TreeNode, None, bool]:
     lst1 = tolist(bst1)
     lst2 = tolist(bst2)
     lst = lst1 + lst2
@@ -206,11 +209,11 @@ def mempty() -> None:
     return None
 
 
-def iterator(bst: Union[TreeNode, None]):
+def iterator(bst: Union[TreeNode, None]) -> List:
     return [tolist(bst), 0]
 
 
-def next_item(it_lst: List):
+def next_item(it_lst: List) -> Callable[[], Any]:
     lst = it_lst[0]
     cur = it_lst[1]
 
@@ -226,7 +229,7 @@ def next_item(it_lst: List):
     return foo
 
 
-def display(bst: Union[TreeNode, None]):
+def display(bst: Union[TreeNode, None]) -> dict:
     if bst is None:
         return {}
     else:

@@ -7,7 +7,7 @@ from immutable import *
 
 
 class TestImmutableList(unittest.TestCase):
-    def test_api(self):
+    def test_api(self) -> None:
         empty = None
         l1 = TreeNode(None, "c", TreeNode(2, "b", TreeNode("a", 1)))
         l2 = TreeNode("a", 1, TreeNode(None, "c", TreeNode(2, "b")))
@@ -55,7 +55,7 @@ class TestImmutableList(unittest.TestCase):
             lst.remove(e)
         self.assertEqual(lst, [])
 
-    def test_size(self):
+    def test_size(self) -> None:
         self.assertEqual(size(None), 0)
         self.assertEqual(size(TreeNode(3, 'a')), 1)
         self.assertEqual(size(TreeNode(3, 'a', TreeNode(2, 'b'))), 2)
@@ -69,7 +69,7 @@ class TestImmutableList(unittest.TestCase):
         tmp = insert(tmp, "g", "g")
         self.assertEqual(size(tmp), 4)
 
-    def test_insert(self):
+    def test_insert(self) -> None:
         self.assertEqual(insert(None, 3, 'a').key, 3)
         self.assertEqual(insert(None, 3, 'a').val, 'a')
         self.assertEqual(insert(TreeNode(3, 'a'), 2, 'b').key, 3)
@@ -89,18 +89,18 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(insert(TreeNode(3, 'a'), 5, 'c').rightChild.key, 5)
         self.assertEqual(insert(TreeNode(3, 'a'), 5, 'c').rightChild.val, 'c')
 
-    def test_find(self):
+    def test_find(self) -> None:
         T = TreeNode(3, 'a', TreeNode(2, 'b'), TreeNode(5, 'c'))
         self.assertEqual(find(T, 3), 'a')
         self.assertEqual(find(T, 2), 'b')
         self.assertEqual(find(T, 5), 'c')
         self.assertEqual(find(T, 6), False)
 
-    def test_member(self):
+    def test_member(self) -> None:
         T = TreeNode(3, 'a', TreeNode(2, 'b'), TreeNode(5, 'c'))
         self.assertEqual(is_member(T, 2, 'b'), True)
 
-    def test_delete(self):
+    def test_delete(self) -> None:
         T = TreeNode(3, 'a', TreeNode(2, 'b'), TreeNode(5, 'c'))
         self.assertEqual(is_member(T, 2, 'b'), True)
         self.assertEqual(is_member(delete(T, 2), 2, 'b'), False)
@@ -109,11 +109,11 @@ class TestImmutableList(unittest.TestCase):
         except AttributeError as e:
             self.assertEqual(e.args[0], "The element does not exist.")
 
-    def test_tolist(self):
+    def test_tolist(self) -> None:
         T = TreeNode(3, 'a', TreeNode(2, 'b'), TreeNode(5, 'c'))
         self.assertEqual(tolist(T), [3, 'a', 2, 'b', 5, 'c'])
 
-    def test_fromlist(self):
+    def test_fromlist(self) -> None:
         lst = [3, 'a', 2, 'b', 5, 'c']
         T = fromlist(lst)
         self.assertEqual(T.val, 'a')
@@ -124,7 +124,7 @@ class TestImmutableList(unittest.TestCase):
         lst3 = [3, 'a', 2, 'b', 5]
         self.assertEqual(fromlist(lst3), False)
 
-    def test_map(self):
+    def test_map(self) -> None:
         T = TreeNode(3, 4, TreeNode(2, 6), TreeNode(5, 7))
 
         def f(x):
@@ -140,7 +140,7 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(rc.key, 5)
         self.assertEqual(rc.val, 14)
 
-    def test_func(self):
+    def test_func(self) -> None:
         T = TreeNode(3, 4, TreeNode(2, 6), TreeNode(5, 7))
 
         def fsum(x, s):
@@ -148,7 +148,7 @@ class TestImmutableList(unittest.TestCase):
 
         self.assertEqual(func(T, fsum), 17)
 
-    def test_filter(self):
+    def test_filter(self) -> None:
         T = TreeNode(3, 4, TreeNode(2, 6), TreeNode(5, 7))
 
         def r(key):
@@ -163,7 +163,7 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(T_filter.rightChild.key, 5)
         self.assertEqual(T_filter.rightChild.val, 7)
 
-    def test_mconcat(self):
+    def test_mconcat(self) -> None:
         T1 = TreeNode(3, 4, TreeNode(2, 6), TreeNode(5, 7))
         T2 = TreeNode(1, 8)
         T = mconcat(T1, T2)
@@ -174,7 +174,7 @@ class TestImmutableList(unittest.TestCase):
     element = st.one_of(st.integers(), st.text(min_size=1))
 
     @given(st.lists(element))
-    def test_from_list_to_list_equality(self, a):
+    def test_from_list_to_list_equality(self, a) -> None:
         if len(a) % 2 == 1:
             self.assertEqual(fromlist(a), False)
         else:
@@ -200,7 +200,7 @@ class TestImmutableList(unittest.TestCase):
     element = st.one_of(st.integers(), st.text(min_size=1))
 
     @given(st.lists(element))
-    def test_monoid_identity(self, lst):
+    def test_monoid_identity(self, lst) -> None:
         if len(lst) % 2 == 1:
             self.assertEqual(fromlist(lst), False)
         else:
@@ -228,7 +228,7 @@ class TestImmutableList(unittest.TestCase):
     element = st.one_of(st.integers(), st.text(min_size=1))
 
     @given(st.lists(element), st.lists(element), st.lists(element))
-    def test_monoid_associativity(self, lst1, lst2, lst3):
+    def test_monoid_associativity(self, lst1, lst2, lst3) -> None:
         if len(lst1) % 2 == 1:
             self.assertEqual(fromlist(lst1), False)
         elif len(lst2) % 2 == 1:
@@ -242,7 +242,7 @@ class TestImmutableList(unittest.TestCase):
             self.assertEqual(tolist(mconcat(mconcat(t1, t2), t3)),
                              tolist(mconcat(t1, mconcat(t2, t3))))
 
-    def test_iter(self):
+    def test_iter(self) -> None:
         lst = [3, 'a', 2, 'b', 5, 'c']
         T = fromlist(lst)
         tmp = []
