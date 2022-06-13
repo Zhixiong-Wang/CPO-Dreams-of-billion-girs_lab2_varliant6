@@ -11,13 +11,13 @@ val_type = TypeVar('val_type', None, str, int, float)
 
 class TreeNode:
     def __init__(self, key, val,
-                 left=None, right=None):
+                 left=None, right=None) -> None:
         self.key = key
         self.val = val
         self.leftChild = left
         self.rightChild = right
 
-    def __iter__(self) -> List[Any]:
+    def __iter__(self) -> Iterator[Any]:
         return iter(tolist(self))
 
 
@@ -41,17 +41,17 @@ def insert(bst: Union[TreeNode, None], key: key_type,
         # raise AttributeError("The element is wrong.")
     elif bst.key is None:
         if bst.leftChild is None:
-            bst.leftChild = TreeNode(key, val)
+            bst.leftChild = TreeNode(key, val)  # type: ignore
         else:
             if bst.rightChild is None:
-                bst.rightChild = TreeNode(key, val)
+                bst.rightChild = TreeNode(key, val)  # type: ignore
     else:
         if isinstance(key, str):
             key_num = 0
-            for i in range(len(key)):  # type: ignore
-                key_num = key_num + ord(key[i])  # type: ignore
+            for i in range(len(key)):
+                key_num = key_num + ord(key[i])
         else:
-            key_num = key  # type: ignore
+            key_num = key
         if isinstance(bst.key, str):
             bstkey_num = 0
             for i in range(len(bst.key)):
@@ -60,19 +60,18 @@ def insert(bst: Union[TreeNode, None], key: key_type,
             bstkey_num = bst.key
         if key_num <= bstkey_num:
             if bst.leftChild is None:
-                bst.leftChild = TreeNode(key, val)
+                bst.leftChild = TreeNode(key, val)  # type: ignore
             else:
                 insert(bst.leftChild, key, val)
         else:
             if bst.rightChild is None:
-                bst.rightChild = TreeNode(key, val)
+                bst.rightChild = TreeNode(key, val)  # type: ignore
             else:
                 insert(bst.rightChild, key, val)
     return bst
 
 
-def get(bst: Union[TreeNode, None],
-        key: key_type) -> Union[TreeNode, None]:
+def get(bst: Union[TreeNode, None], key: key_type) -> Union[TreeNode, None]:
     if bst is None:
         return None
     if type(bst.key) != key:
