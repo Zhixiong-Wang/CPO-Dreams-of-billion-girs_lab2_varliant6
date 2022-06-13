@@ -23,11 +23,12 @@ class TreeNode:
         return iter(tolist(self))
 
 
-def size(bst: Union[TreeNode, None]) -> Union[int, TreeNode]:
-    if bst is None:
+def size(b: Union[TreeNode, None]) -> int:
+    if b is None:
         return 0
     else:
-        return 1 + size(bst.leftChild) + size(bst.rightChild)
+        return 1 + size(b.leftChild) +\
+               size(b.rightChild)  # type: ignore
 
 
 def insert(bst: Union[TreeNode, None], key: K,
