@@ -5,15 +5,15 @@ from typing import Union
 from typing import Generator
 from typing import Callable
 
-key_type = Union[str, int, float]
-val_type = Union[None, str, int, float]
+K = Union[str, int, float]
+D = Union[None, str, int, float]
 
 
 class TreeNode:
-    def __init__(self, key: key_type, val: val_type,
+    def __init__(self, k: K, v: D,
                  left=None, right=None) -> None:
-        self.key = key  # key
-        self.val = val  # value
+        self.key = k  # key
+        self.val = v  # value
         self.leftChild = left  # left pointer
         self.rightChild = right  # right pointer
 
@@ -28,8 +28,8 @@ def size(bst: Union[TreeNode, None]) -> int:
         return 1 + size(bst.leftChild) + size(bst.rightChild)
 
 
-def insert(bst: Union[TreeNode, None], key: key_type,
-           val: val_type) -> TreeNode:
+def insert(bst: Union[TreeNode, None], key: K,
+           val: D) -> TreeNode:
     if bst is None:
         bst = TreeNode(key, val)
     elif key is None or val is None:
@@ -71,7 +71,7 @@ def insert(bst: Union[TreeNode, None], key: key_type,
     return bst
 
 
-def get(bst: Union[TreeNode, None], key: key_type) -> Union[TreeNode, None]:
+def get(bst: Union[TreeNode, None], key: K) -> Union[TreeNode, None]:
     if bst is None:
         return None
     if type(bst.key) != key:
@@ -84,7 +84,7 @@ def get(bst: Union[TreeNode, None], key: key_type) -> Union[TreeNode, None]:
 
 
 def find(bst: Union[TreeNode, None],
-         key: key_type) -> Union[val_type, bool]:
+         key: K) -> Union[D, bool]:
     if get(bst, key) is None:
         return False
     else:
@@ -92,7 +92,7 @@ def find(bst: Union[TreeNode, None],
 
 
 def parent(bst: Union[TreeNode, None],
-           key: key_type) -> Union[TreeNode, None]:
+           key: K) -> Union[TreeNode, None]:
     if bst is None or bst.key == key:
         return None
     elif key == bst.leftChild.key or key == bst.rightChild.key:
@@ -104,7 +104,7 @@ def parent(bst: Union[TreeNode, None],
 
 
 def is_member(bst: Union[TreeNode, None],
-              k: key_type, v: val_type) -> bool:
+              k: K, v: D) -> bool:
     if find(bst, k) == v:
         return True
     else:
@@ -112,7 +112,7 @@ def is_member(bst: Union[TreeNode, None],
 
 
 def delete(bst: Union[TreeNode, None],
-           key: key_type) -> None:
+           key: K) -> None:
     res = tolist(bst)
     res1 = res[0::2]
     index = None
