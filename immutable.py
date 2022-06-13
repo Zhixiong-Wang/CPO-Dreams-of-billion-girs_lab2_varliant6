@@ -4,6 +4,7 @@ from typing import Any
 from typing import Union
 from typing import Generator
 from typing import Callable
+from typing import Optional
 
 K = Union[str, int, float]
 D = Union[None, str, int, float]
