@@ -5,8 +5,8 @@ from typing import Union
 from typing import Generator
 from typing import Callable
 
-key_type1 = TypeVar('key_type1', str, int, float)
-val_type1 = TypeVar('val_type1', None, str, int, float)
+key_type1 = TypeVar('key_type', str, int, float)
+val_type1 = TypeVar('val_type', None, str, int, float)
 
 
 class TreeNode:
@@ -19,11 +19,6 @@ class TreeNode:
 
     def __iter__(self) -> List[Any]:
         return iter(tolist(self))
-
-
-key_type = TypeVar('key_type', str, int, float)
-val_type = TypeVar('val_type', None, str, int, float)
-node_type = TypeVar('node_type', None, TreeNode)
 
 
 def size(bst: Union[TreeNode, None]) -> int:
