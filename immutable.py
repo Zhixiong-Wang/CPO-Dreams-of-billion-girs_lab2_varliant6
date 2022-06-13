@@ -22,7 +22,7 @@ class TreeNode:
         return iter(tolist(self))
 
 
-def size(bst: Union[TreeNode, None]) -> int:
+def size(bst: Union[TreeNode, None]) -> Optional[TreeNode]:
     if bst is None:
         return 0
     else:
@@ -30,7 +30,7 @@ def size(bst: Union[TreeNode, None]) -> int:
 
 
 def insert(bst: Union[TreeNode, None], key: K,
-           val: D) -> TreeNode:
+           val: D) -> Optional[TreeNode]:
     if bst is None:
         bst = TreeNode(key, val)
     elif key is None or val is None:
@@ -52,16 +52,16 @@ def insert(bst: Union[TreeNode, None], key: K,
             for i in range(len(key)):
                 key_num = key_num + ord(key[i])
         else:
-            key_num = key
+            key_num = key  # type: ignore
         if isinstance(bst.key, str):
             bstkey_num = 0
             for i in range(len(bst.key)):
                 bstkey_num = bstkey_num + ord(bst.key[i])
         else:
-            bstkey_num = bst.key
+            bstkey_num = bst.key  # type: ignore
         if key_num <= bstkey_num:
             if bst.leftChild is None:
-                bst.leftChild = TreeNode(key, val)  # type: ignore
+                bst.leftChild = TreeNode(key, val)
             else:
                 insert(bst.leftChild, key, val)
         else:
