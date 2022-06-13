@@ -7,13 +7,13 @@ from typing import Callable
 
 
 class TreeNode:
-    def __init__(self, key, val, left=None, right=None):
+    def __init__(self, key, val, left=None, right=None) -> None:
         self.key = key
         self.val = val
         self.leftChild = left
         self.rightChild = right
 
-    def __iter__(self):
+    def __iter__(self) -> List:
         return iter(tolist(self))
 
 
@@ -32,13 +32,13 @@ def size(bst: Union[TreeNode, None]) -> int:
 def insert(bst: Union[TreeNode, None], key: key_type,
            val: val_type) -> TreeNode:
     if bst is None:
-        bst = TreeNode(key, val)
+        bst = TreeNode(key, val)  # type: ignore
     elif key is None or val is None:
         if bst.leftChild is None:
-            bst.leftChild = TreeNode(key, val)
+            bst.leftChild = TreeNode(key, val)  # type: ignore
         else:
             if bst.rightChild is None:
-                bst.rightChild = TreeNode(key, val)
+                bst.rightChild = TreeNode(key, val)  # type: ignore
         # raise AttributeError("The element is wrong.")
     elif bst.key is None:
         if bst.leftChild is None:
