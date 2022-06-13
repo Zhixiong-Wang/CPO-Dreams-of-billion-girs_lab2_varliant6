@@ -6,14 +6,14 @@ from typing import Generator
 from typing import Callable
 
 
-class TreeNode:
+class TreeNode(object):
     def __init__(self, key, val, left=None, right=None) -> None:
         self.key = key
         self.val = val
         self.leftChild = left
         self.rightChild = right
 
-    def __iter__(self) -> List:
+    def __iter__(self) -> List[Any]:
         return iter(tolist(self))
 
 
